@@ -2,6 +2,8 @@ import { LogEntity } from "../../entities/log.entity";
 import { LogSeverityLevel } from "../../enums/logSeverityLevel.enum";
 import { LogRepository } from "../../repository/log.repository";
 
+const origin = 'check-service.ts';
+
 interface CheckServiceUseCase {
     execute(url: string): Promise<boolean>;
 }
@@ -23,10 +25,11 @@ export class CheckService implements CheckServiceUseCase {
             const req = await fetch( url );
             if ( !req.ok ) throw new Error( `Error on check service ${ url }` );
             
-            const log = new LogEntity(
-                `Service ${url} working`,
-                LogSeverityLevel.low
-            );
+            const log = new LogEntity({
+                message: `Service ${url} working`,
+                level: LogSeverityLevel.low,
+                origin: origin
+            });
         
             this.logRepository.saveLog( log );
 
@@ -37,10 +40,11 @@ export class CheckService implements CheckServiceUseCase {
         } catch (error) {
 
             const errorMessage = `${ url } is not ok. ${ error }`;
-            const log = new LogEntity(
-                errorMessage,
-                LogSeverityLevel.high
-            );
+            const log = new LogEntity({
+                message: errorMessage,
+                level: LogSeverityLevel.high,
+                origin: origin
+            });
 
             this.logRepository.saveLog(log);
             

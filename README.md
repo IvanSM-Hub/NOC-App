@@ -9,8 +9,13 @@ El objetivo es crear una una serie de tareas usando Arquitectura Limpia con Type
 ```
 PORT=3000
 
+MAILER_SERVICE=
 MAILER_EMAIL=
 MAILER_SECRET_KEY=
 
 PROD=false
 ```
+
+3. Ejecutar el comando ```npm install```
+
+4. Ejecutar el comando ```npm run dev```
